@@ -20,10 +20,17 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     const { url } = await req.json();
+    const key = req.headers.get("x-api-key");
+
+    if (key !== process.env.X_API_KEY) {
+        return Response.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
     if(!url) {
         return Response.json({ message: "URL is required" }, { status: 400 });
     }
+
+
 
     if(!url.startsWith("http")) {
         return Response.json({ message: "URL must start with http or https" }, { status: 400 });
