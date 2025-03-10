@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
         const browser = await puppeteer.connect({ browserWSEndpoint });
         const page = await browser.newPage();
         const cdp = await page.createCDPSession();
+        console.log(cdp);
         await page.goto(url, { waitUntil: "networkidle2" });
 
         const jsFiles = new Set();
