@@ -19,6 +19,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+    const browserWSEndpoint = `wss://production-sfo.browserless.io/chromium?token=${process.env.BROWSERLESS_TOKEN}`;
     const { url } = await req.json();
     const key = req.headers.get("x-api-key");
 
@@ -36,8 +37,9 @@ export async function POST(req: NextRequest) {
         return Response.json({ message: "URL must start with http or https" }, { status: 400 });
     }
     try {
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.connect({ browserWSEndpoint });
         const page = await browser.newPage();
+        const cdp = await page.createCDPSession();
         await page.goto(url, { waitUntil: "networkidle2" });
 
         const jsFiles = new Set();
