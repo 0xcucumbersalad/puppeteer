@@ -19,7 +19,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-    const browserWSEndpoint = `wss://production-sfo.browserless.io/chromium?token=${process.env.BROWSERLESS_TOKEN}`;
+    const browserWSEndpoint = `wss://browserless.jwisnetwork.com/chromium?token=${process.env.BROWSERLESS_TOKEN}`;
     const { url } = await req.json();
     const key = req.headers.get("x-api-key");
 
